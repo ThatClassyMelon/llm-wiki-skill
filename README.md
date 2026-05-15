@@ -13,42 +13,17 @@ The **wiki-capture plugin** handles the auto-capture layer:
 
 ## Quick Start
 
+**One command:**
 ```bash
-# 1. Install companion plugin → ~/.openclaw/extensions/wiki-capture/
-git clone https://github.com/ThatClassyMelon/wiki-capture-plugin.git ~/.openclaw/extensions/wiki-capture
-
-# 2. Bootstrap the wiki structure
-bash scripts/bootstrap.sh
-
-# 3. Set up maintenance cron jobs
-bash scripts/setup-cron.sh
+curl -sSL https://raw.githubusercontent.com/ThatClassyMelon/llm-wiki-skill/main/scripts/install.sh | bash
 ```
 
-## Config
+That handles everything — clones the wiki-capture plugin, installs the skill, patches `openclaw.json`, bootstraps the wiki structure, and optionally sets up cron jobs. Just restart OpenClaw after.
 
-```json
-{
-  "skills": {
-    "entries": {
-      "llm-wiki": { "enabled": true }
-    }
-  },
-  "plugins": {
-    "entries": {
-      "wiki-capture": {
-        "enabled": true,
-        "config": {
-          "autoRecall": true,
-          "autoCapture": true,
-          "captureThreshold": "all"
-        },
-        "hooks": {
-          "allowConversationAccess": true
-        }
-      }
-    }
-  }
-}
+**Manual install:**
+```bash
+git clone https://github.com/ThatClassyMelon/llm-wiki-skill.git /tmp/llm-wiki-install
+bash /tmp/llm-wiki-install/scripts/install.sh
 ```
 
 ## What's Inside
