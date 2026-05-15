@@ -100,11 +100,20 @@ if [[ -z "$PYTHON" ]]; then
 elif [[ ! -f "$CONFIG_FILE" ]]; then
   echo -e "   ${YELLOW}⚠${NC} No openclaw.json found — creating minimal config"
   mkdir -p "$(dirname "$CONFIG_FILE")"
+  # Include both plugin + skill in the default config
   cat > "$CONFIG_FILE" <<'EOFCONFIG'
 {
   "agents": { "defaults": {}, "list": [{ "id": "main", "skills": ["llm-wiki"] }] },
   "skills": { "entries": { "llm-wiki": { "enabled": true } } },
-  "plugins": { "entries": {} }
+  "plugins": {
+    "entries": {
+      "wiki-capture": {
+        "enabled": true,
+        "config": { "autoRecall": true, "autoCapture": true, "captureThreshold": "all" },
+        "hooks": { "allowConversationAccess": true }
+      }
+    }
+  }
 }
 EOFCONFIG
   echo -e "   ${GREEN}✓${NC} Created default openclaw.json"
