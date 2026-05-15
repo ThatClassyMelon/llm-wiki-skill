@@ -1,0 +1,17 @@
+# Obsidian workspace cache (personal layout, not vault content)
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+
+# System files
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.*.swp
+
+# Large binaries / raw data (exclude from wiki sync)
+/raw/
+/canvas/
+
+# Node modules (if any)
+node_modules/
