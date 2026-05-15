@@ -73,6 +73,7 @@ create_if_missing() {
     echo "   Skipping (exists): $dest"
     return
   fi
+  mkdir -p "$(dirname "$dest")"
   cat > "$dest" <<HEREDOC
 ${2}
 HEREDOC
