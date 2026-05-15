@@ -166,6 +166,27 @@ echo ""
 echo "🧠 llm-wiki bootstrap complete!"
 echo "   Wiki root: ${WIKI_ROOT}"
 echo ""
+echo "Injecting AGENTS.md startup discipline..."
+
+# ─── Inject into workspace AGENTS.md ─────────────────────────────────
+AGENTS_MD="${HOME}/.openclaw/workspace/AGENTS.md"
+INJECT="${TEMPLATES}/AGENTS-inject.md"
+
+if [[ -f "$AGENTS_MD" ]] && [[ -f "$INJECT" ]]; then
+  if grep -q "Wiki Push (Mandatory)" "$AGENTS_MD"; then
+    echo "   Already injected — skipping"
+  else
+    # Append the injection fragment
+    echo "" >> "$AGENTS_MD"
+    cat "$INJECT" >> "$AGENTS_MD"
+    echo "   ✓ AGENTS.md updated with wiki push + memory discipline"
+  fi
+else
+  echo "   ⚠ AGENTS.md not found at $AGENTS_MD — skipping"
+  echo "   Manually append templates/AGENTS-inject.md to your workspace AGENTS.md"
+fi
+
+echo ""
 echo "Next steps for your agent:"
 echo "   1. Read ~/llm-wiki/.schema.md"
 echo "   2. Read ~/llm-wiki/wiki/yuri/notes.md"
