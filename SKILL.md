@@ -153,6 +153,16 @@ Available in `.schema.md` and `templates/`:
 
 ## Setup
 
+### Companion Plugin (Required)
+
+This skill pairs with the **wiki-capture plugin** (`ThatClassyMelon/wiki-capture-plugin`).
+- Plugin: auto-captures conversations to `.capture` files + injects wiki context before replies
+- Skill: provides the file structure, templates, workflows, and maintenance cron jobs
+
+Install the plugin first: copy to `~/.openclaw/extensions/wiki-capture/` and enable in `openclaw.json`.
+
+### Bootstrap
+
 Run `scripts/bootstrap.sh` for one-time setup. It creates the directory structure, writes template files, and sets up cron jobs.
 
 The bootstrap is idempotent — safe to run multiple times.

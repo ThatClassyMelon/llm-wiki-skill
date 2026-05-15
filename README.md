@@ -2,38 +2,68 @@
 
 An OpenClaw skill that gives agents long-term memory across sessions. A structured, file-based knowledge system at `~/llm-wiki/`.
 
-**What it provides:**
-- Full rulebook (`.schema.md`) — directory structure, naming conventions, frontmatter, workflows
-- Session startup discipline — forces the agent to read the wiki on every new session
-- Wiki push workflow — mandatory after substantive conversations
-- Source ingestion pipeline — articles, social posts, media, tools
-- Lint system — weekly + monthly maintenance with cron jobs
-- Taxonomy system — hub-and-spoke model across 5 brain domains
-- Source templates for 4 content types + generic
+## Companion plugin: [wiki-capture](https://github.com/ThatClassyMelon/wiki-capture-plugin)
 
-**One-time setup:**
+The **wiki-capture plugin** handles the auto-capture layer:
+- `agent_end` hook — auto-writes `.capture-YYYY-MM-DD.md` raw conversation logs
+- `before_prompt_build` hook — injects wiki priorities + recent activity into agent context
+- Configurable threshold: `all` | `substantive` | `minimal`
+
+**Plugin captures raw logs → Skill provides structure + workflows + maintenance.** Both together form the complete system.
+
+## Quick Start
+
 ```bash
+# 1. Install companion plugin → ~/.openclaw/extensions/wiki-capture/
+git clone https://github.com/ThatClassyMelon/wiki-capture-plugin.git ~/.openclaw/extensions/wiki-capture
+
+# 2. Bootstrap the wiki structure
 bash scripts/bootstrap.sh
-```
 
-**Cron jobs (optional):**
-```bash
+# 3. Set up maintenance cron jobs
 bash scripts/setup-cron.sh
 ```
 
-**Installation:**
-Copy to `~/.openclaw/workspace/skills/llm-wiki/`, then enable in `openclaw.json`:
+## Config
+
 ```json
 {
   "skills": {
     "entries": {
       "llm-wiki": { "enabled": true }
     }
+  },
+  "plugins": {
+    "entries": {
+      "wiki-capture": {
+        "enabled": true,
+        "config": {
+          "autoRecall": true,
+          "autoCapture": true,
+          "captureThreshold": "all"
+        },
+        "hooks": {
+          "allowConversationAccess": true
+        }
+      }
+    }
   }
 }
 ```
 
-**Structure:**
+## What's Inside
+
+- **Full rulebook** (`.schema.md`) — directory structure, naming conventions, frontmatter, all workflows
+- **Session startup discipline** — forces the agent to read the wiki on every new session
+- **Wiki push workflow** — mandatory after substantive conversations
+- **Source ingestion pipeline** — articles, social posts, media, tools (4 templates + generic)
+- **Lint system** — weekly + monthly maintenance with cron jobs
+- **Taxonomy system** — hub-and-spoke model across 5 brain domains
+- **Bootstrap script** — one-shot directory + template creation (idempotent)
+- **AGENTS.md injection** — appends the startup discipline + wiki push rules to workspace AGENTS.md
+
+## Structure
+
 ```
 llm-wiki/
   SKILL.md                 — agent instructions
